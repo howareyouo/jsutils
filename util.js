@@ -59,6 +59,44 @@ function filesize(bytes) {
   return Number(size.toFixed(2)) + unit
 }
 
+/**
+ * Returns a function, that, as long as it continues to be invoked,
+ * will not be triggered. The function will be called after it
+ * stops being called for N milliseconds.
+ * If immediate is passed, trigger the function on the leading edge,
+ * instead of the trailing.
+ * Copy from Underscore.js 1.8.3
+ */
+function debounce(func, wait, immediate) {
+  var timeout, args, context, timestamp, result
+
+  var delayed = function () {
+    var last = new Date().getTime() - timestamp
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(delayed, wait - last)
+    } else {
+      timeout = null
+      if (!immediate) {
+        result = func.apply(context, args)
+        context = args = null
+      }
+    }
+  }
+  return function () {
+    context = this
+    args = arguments
+    timestamp = new Date().getTime()
+    var callnow = immediate && !timeout
+    if (!timeout) timeout = setTimeout(delayed, wait)
+    if (callnow) {
+      result = func.apply(context, args)
+      context = args = null
+    }
+    return result
+  }
+}
+
 /* open app in webpage */
 function openApp() {
   var iframe = document.createElement('iframe')
@@ -135,41 +173,3 @@ var device = (function () {
 
   return device
 })()
-
-/**
- * Returns a function, that, as long as it continues to be invoked,
- * will not be triggered. The function will be called after it
- * stops being called for N milliseconds.
- * If immediate is passed, trigger the function on the leading edge,
- * instead of the trailing.
- * Copy from Underscore.js 1.8.3
- */
-function debounce(func, wait, immediate) {
-  var timeout, args, context, timestamp, result
-
-  var delayed = function () {
-    var last = new Date().getTime() - timestamp
-
-    if (last < wait && last >= 0) {
-      timeout = setTimeout(delayed, wait - last)
-    } else {
-      timeout = null
-      if (!immediate) {
-        result = func.apply(context, args)
-        context = args = null
-      }
-    }
-  }
-  return function () {
-    context = this
-    args = arguments
-    timestamp = new Date().getTime()
-    var callnow = immediate && !timeout
-    if (!timeout) timeout = setTimeout(delayed, wait)
-    if (callnow) {
-      result = func.apply(context, args)
-      context = args = null
-    }
-    return result
-  }
-}
