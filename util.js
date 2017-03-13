@@ -8,23 +8,23 @@ function queryParam(name) {
   return name ? param[name] : param
 }
 
-/* time format */
-function format(secends) {
-  secends = parseInt(secends)
-  var hou = parseInt(secends / 3600),
-      min = parseInt(secends % 3600 / 60),
-      sec = secends % 60
-  var str = ''
-  str += hou ? hou + ':' : ''
-  str += hou ? this.pad(min) : min + ':' + this.pad(sec)
-  return str
-}
-
 /* padding leading zero */
 function pad(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 },
+
+/* returns duration from millisecends in hh:mm:ss format */
+function (secends, millis) {
+  if (!secends) return ''
+  secends = millis ? Math.floor(secends / 1000) : secends
+  var hou = Math.floor(secends / 3600),
+      min = Math.floor(secends % 3600 / 60),
+      sec = Math.floor(secends % 60);
+
+  hou = hou ? hou + ':' : '';
+  return hou + hou ? pad(min) : min + ':' + pad(sec)
+}
 
 /* calculate time past from now on */
 function timepast(timestamp) {
