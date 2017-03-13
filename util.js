@@ -49,6 +49,16 @@ function timepast(timestamp) {
   if (minites > 0) return minites + '分钟前'
 }
 
+function filesize(bytes) {
+  var size = bytes / 1024, 
+      unit = 'KB'
+  if (size > 1024) {
+    size = size / 1024
+    unit = 'MB'
+  }
+  return Number(size.toFixed(2)) + unit
+}
+
 /* open app in webpage */
 function openApp() {
   var iframe = document.createElement('iframe')
