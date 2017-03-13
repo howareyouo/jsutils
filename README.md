@@ -1,2 +1,2 @@
 # jsutils
-Some utility writen in Javascript
+Some utility methods writen in Javascript
